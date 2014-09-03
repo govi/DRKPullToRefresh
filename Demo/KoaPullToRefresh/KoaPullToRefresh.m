@@ -8,19 +8,20 @@
 
 #import "KoaPullToRefresh.h"
 #import <QuartzCore/QuartzCore.h>
+#import <RTSpinKitView.h>
 
 #define fequal(a,b) (fabs((a) - (b)) < FLT_EPSILON)
 #define fequalzero(a) (fabs(a) < FLT_EPSILON)
 
 static CGFloat KoaPullToRefreshViewHeight = 82;
 static CGFloat KoaPullToRefreshViewHeightShowed = 0;
-static CGFloat KoaPullToRefreshViewTitleBottomMargin = 12;
+static CGFloat KoaPullToRefreshViewTitleBottomMargin = 5;
 
 @interface KoaPullToRefreshView ()
 
 @property (nonatomic, copy) void (^pullToRefreshActionHandler)(void);
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
-@property (nonatomic, strong, readwrite) UILabel *loaderLabel;
+@property (nonatomic, strong, readwrite) RTSpinKitView *loaderView;
 @property (nonatomic, readwrite) KoaPullToRefreshState state;
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, weak) UIScrollView *scrollView;
@@ -139,7 +140,7 @@ static char UIScrollViewPullToRefreshView;
 @synthesize scrollView = _scrollView;
 @synthesize showsPullToRefresh = _showsPullToRefresh;
 @synthesize titleLabel = _titleLabel;
-@synthesize loaderLabel = _loaderLabel;
+@synthesize loaderView = _loaderView;
 
 - (id)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
@@ -150,7 +151,6 @@ static char UIScrollViewPullToRefreshView;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.state = KoaPullToRefreshStateStopped;
         [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [self.loaderLabel setTextAlignment:NSTextAlignmentLeft];
         
         self.titles = [NSMutableArray arrayWithObjects: NSLocalizedString(@"Pull",),
                                                         NSLocalizedString(@"Release",),
@@ -195,19 +195,19 @@ static char UIScrollViewPullToRefreshView;
     //Set state of loader label
     switch (self.state) {
         case KoaPullToRefreshStateStopped:
-            [self.loaderLabel setAlpha:0];
-            [self.loaderLabel setFrame:CGRectMake(self.frame.size.width/2 - self.loaderLabel.frame.size.width/2,
+            [self.loaderView setAlpha:0];
+            [self.loaderView setFrame:CGRectMake(self.frame.size.width/2 - self.loaderView.frame.size.width/2,
                                                   titleY - 100,
-                                                  self.loaderLabel.frame.size.width,
-                                                  self.loaderLabel.frame.size.height)];
+                                                  self.loaderView.frame.size.width,
+                                                  self.loaderView.frame.size.height)];
             break;
         case KoaPullToRefreshStateTriggered:
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut animations:^{
-                [self.loaderLabel setAlpha:1];
-                [self.loaderLabel setFrame:CGRectMake(self.frame.size.width/2 - self.loaderLabel.frame.size.width/2,
-                                                      titleY - 24,
-                                                      self.loaderLabel.frame.size.width,
-                                                      self.loaderLabel.frame.size.height)];
+                [self.loaderView setAlpha:1];
+                [self.loaderView setFrame:CGRectMake(self.frame.size.width/2 - self.loaderView.frame.size.width/2,
+                                                      titleY - 35,
+                                                      self.loaderView.frame.size.width,
+                                                      self.loaderView.frame.size.height)];
             } completion:NULL];
             break;
     }
@@ -306,17 +306,15 @@ static char UIScrollViewPullToRefreshView;
     return _titleLabel;
 }
 
-- (UILabel *)loaderLabel {
-    if(!_loaderLabel) {
-        _loaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 17/2, 0, 17, 17)];
-        _loaderLabel.text = @"+";
-        _loaderLabel.font = [UIFont systemFontOfSize:20];
-        _loaderLabel.backgroundColor = [UIColor clearColor];
-        _loaderLabel.textColor = textColor;
-        [_loaderLabel sizeToFit];
-        [self addSubview:_loaderLabel];
+-(RTSpinKitView *)loaderView
+{
+    if(!_loaderView)
+    {
+        _loaderView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:textColor];
+        _loaderView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_loaderView];
     }
-    return _loaderLabel;
+    return _loaderView;
 }
 
 - (UIColor *)textColor {
@@ -344,7 +342,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)setTextColor:(UIColor *)newTextColor {
     textColor = newTextColor;
     self.titleLabel.textColor = newTextColor;
-    self.loaderLabel.textColor = newTextColor;
+    self.loaderView.color = newTextColor;
 }
 
 - (void)setTextFont:(UIFont *)font
@@ -409,17 +407,11 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)startRotatingIcon {
-    CABasicAnimation *rotation;
-    rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    rotation.fromValue = [NSNumber numberWithFloat:0];
-    rotation.toValue = [NSNumber numberWithFloat:(2*M_PI)];
-    rotation.duration = 1.2;
-    rotation.repeatCount = HUGE_VALF;
-    [self.loaderLabel.layer addAnimation:rotation forKey:@"Spin"];
+    [self.loaderView startAnimating];
 }
 
 - (void)stopRotatingIcon {
-    [self.loaderLabel.layer removeAnimationForKey:@"Spin"];
+    [self.loaderView stopAnimating];
 }
 
 @end

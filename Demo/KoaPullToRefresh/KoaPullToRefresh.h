@@ -10,6 +10,7 @@
 #import <AvailabilityMacros.h>
 
 @class KoaPullToRefreshView;
+@class RTSpinKitView;
 
 @interface UIScrollView (KoaPullToRefresh)
 
@@ -38,7 +39,7 @@ typedef NSUInteger KoaPullToRefreshState;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIFont *textFont;
 @property (nonatomic, strong, readonly) UILabel *titleLabel;
-@property (nonatomic, strong, readonly) UILabel *loaderLabel;
+@property (nonatomic, strong, readonly) RTSpinKitView *loaderView;
 @property (nonatomic, readonly) KoaPullToRefreshState state;
 
 - (void)setTitle:(NSString *)title forState:(KoaPullToRefreshState)state;
