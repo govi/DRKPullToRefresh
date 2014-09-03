@@ -48,9 +48,6 @@
     //Customize pulltorefresh text colors
     [self.tableView.pullToRefreshView setTextColor:[UIColor whiteColor]];
     [self.tableView.pullToRefreshView setTextFont:[UIFont fontWithName:@"OpenSans-Semibold" size:16]];
-    
-    //Set fontawesome icon
-    [self.tableView.pullToRefreshView setFontAwesomeIcon:@"icon-refresh"];
 
     //Set titles
     [self.tableView.pullToRefreshView setTitle:@"Pull" forState:KoaPullToRefreshStateStopped];

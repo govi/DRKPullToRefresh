@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <AvailabilityMacros.h>
-#import "NSString+FontAwesome.h"
-#import "UIFont+FontAwesome.h"
 
 @class KoaPullToRefreshView;
 
@@ -41,11 +39,9 @@ typedef NSUInteger KoaPullToRefreshState;
 @property (nonatomic, strong) UIFont *textFont;
 @property (nonatomic, strong, readonly) UILabel *titleLabel;
 @property (nonatomic, strong, readonly) UILabel *loaderLabel;
-@property (nonatomic, strong, readonly) NSString *fontAwesomeIcon;
 @property (nonatomic, readonly) KoaPullToRefreshState state;
 
 - (void)setTitle:(NSString *)title forState:(KoaPullToRefreshState)state;
-- (void)setFontAwesomeIcon:(NSString *)fontAwesomeIcon;
 - (void)startAnimating;
 - (void)stopAnimating;
 

@@ -140,7 +140,6 @@ static char UIScrollViewPullToRefreshView;
 @synthesize showsPullToRefresh = _showsPullToRefresh;
 @synthesize titleLabel = _titleLabel;
 @synthesize loaderLabel = _loaderLabel;
-@synthesize fontAwesomeIcon = _fontAwesomeIcon;
 
 - (id)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
@@ -310,21 +309,14 @@ static char UIScrollViewPullToRefreshView;
 - (UILabel *)loaderLabel {
     if(!_loaderLabel) {
         _loaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 17/2, 0, 17, 17)];
-        _loaderLabel.text = [NSString fontAwesomeIconStringForIconIdentifier:self.fontAwesomeIcon];
-        _loaderLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20];
+        _loaderLabel.text = @"+";
+        _loaderLabel.font = [UIFont systemFontOfSize:20];
         _loaderLabel.backgroundColor = [UIColor clearColor];
         _loaderLabel.textColor = textColor;
         [_loaderLabel sizeToFit];
         [self addSubview:_loaderLabel];
     }
     return _loaderLabel;
-}
-
-- (NSString *)fontAwesomeIcon {
-    if (!_fontAwesomeIcon) {
-        _fontAwesomeIcon = @"icon-refresh";
-    }
-    return _fontAwesomeIcon;
 }
 
 - (UIColor *)textColor {
@@ -358,12 +350,6 @@ static char UIScrollViewPullToRefreshView;
 - (void)setTextFont:(UIFont *)font
 {
     [self.titleLabel setFont:font];
-}
-
-- (void)setFontAwesomeIcon:(NSString *)fontAwesomeIcon
-{
-    _fontAwesomeIcon = fontAwesomeIcon;
-    _loaderLabel.text = [NSString fontAwesomeIconStringForIconIdentifier:self.fontAwesomeIcon];
 }
 
 #pragma mark -

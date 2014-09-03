@@ -23,9 +23,6 @@
 		555AC095173BB30D001EAC94 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 555AC092173BB30D001EAC94 /* OpenSans-Bold.ttf */; };
 		555AC096173BB30D001EAC94 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 555AC093173BB30D001EAC94 /* OpenSans-Regular.ttf */; };
 		555AC097173BB30D001EAC94 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 555AC094173BB30D001EAC94 /* OpenSans-Semibold.ttf */; };
-		55D8EC7A173D053300006E3F /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 55D8EC77173D053300006E3F /* FontAwesome.ttf */; };
-		55D8EC7B173D053300006E3F /* UIFont+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D8EC79173D053300006E3F /* UIFont+FontAwesome.m */; };
-		55D8EC7E173D05E400006E3F /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D8EC7D173D05E400006E3F /* NSString+FontAwesome.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,11 +48,6 @@
 		555AC092173BB30D001EAC94 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		555AC093173BB30D001EAC94 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		555AC094173BB30D001EAC94 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		55D8EC77173D053300006E3F /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		55D8EC78173D053300006E3F /* UIFont+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontAwesome.h"; sourceTree = "<group>"; };
-		55D8EC79173D053300006E3F /* UIFont+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontAwesome.m"; sourceTree = "<group>"; };
-		55D8EC7C173D05E400006E3F /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
-		55D8EC7D173D05E400006E3F /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +103,6 @@
 				555AC085173B93B0001EAC94 /* ViewController.xib */,
 				555AC08D173B9DFE001EAC94 /* KoaPullToRefresh.h */,
 				555AC08E173B9DFE001EAC94 /* KoaPullToRefresh.m */,
-				55D8EC76173D053300006E3F /* Resources */,
 				555AC071173B93B0001EAC94 /* Supporting Files */,
 			);
 			path = KoaPullToRefresh;
@@ -132,18 +123,6 @@
 				555AC080173B93B0001EAC94 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		55D8EC76173D053300006E3F /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				55D8EC77173D053300006E3F /* FontAwesome.ttf */,
-				55D8EC78173D053300006E3F /* UIFont+FontAwesome.h */,
-				55D8EC79173D053300006E3F /* UIFont+FontAwesome.m */,
-				55D8EC7C173D05E400006E3F /* NSString+FontAwesome.h */,
-				55D8EC7D173D05E400006E3F /* NSString+FontAwesome.m */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,7 +184,6 @@
 				555AC095173BB30D001EAC94 /* OpenSans-Bold.ttf in Resources */,
 				555AC096173BB30D001EAC94 /* OpenSans-Regular.ttf in Resources */,
 				555AC097173BB30D001EAC94 /* OpenSans-Semibold.ttf in Resources */,
-				55D8EC7A173D053300006E3F /* FontAwesome.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,8 +198,6 @@
 				555AC07B173B93B0001EAC94 /* AppDelegate.m in Sources */,
 				555AC084173B93B0001EAC94 /* ViewController.m in Sources */,
 				555AC08F173B9DFE001EAC94 /* KoaPullToRefresh.m in Sources */,
-				55D8EC7B173D053300006E3F /* UIFont+FontAwesome.m in Sources */,
-				55D8EC7E173D05E400006E3F /* NSString+FontAwesome.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
