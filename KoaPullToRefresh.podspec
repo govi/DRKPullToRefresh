@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name     = 'KoaPullToRefresh'
   s.version  = '1.0.6'
-  s.platform = :ios, '5.0'
+  s.platform = :ios, '6.0'
   s.license  = 'MIT'
   s.summary  = 'Minimal & easily customizable pull-to-refresh control.'
   s.homepage = 'https://github.com/sergigracia/KoaPullToRefresh'
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   
   s.source_files = 'KoaPullToRefresh/*.{h,m}'
   s.public_header_files = 'KoaPullToRefresh/*.h'
-  s.dependency 'FontAwesome+iOS'
+  s.dependency 'SpinKit', :git => 'https://github.com/govi/SpinKit-ObjC.git'
 
   s.preserve_paths  = 'Demo'
   s.requires_arc = true

@@ -57,7 +57,9 @@
     
     //Hide scroll indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];
-
+    
+    self.tableView.pullToRefreshView.loaderView.style = RTSpinKitViewStyleThreeBounce;
+    
     [self.tableView.pullToRefreshView startAnimating];
 }
 

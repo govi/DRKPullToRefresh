@@ -15,7 +15,7 @@
 
 static CGFloat KoaPullToRefreshViewHeight = 82;
 static CGFloat KoaPullToRefreshViewHeightShowed = 0;
-static CGFloat KoaPullToRefreshViewTitleBottomMargin = 5;
+static CGFloat KoaPullToRefreshViewTitleBottomMargin = 12;
 
 @interface KoaPullToRefreshView ()
 
@@ -205,7 +205,7 @@ static char UIScrollViewPullToRefreshView;
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut animations:^{
                 [self.loaderView setAlpha:1];
                 [self.loaderView setFrame:CGRectMake(self.frame.size.width/2 - self.loaderView.frame.size.width/2,
-                                                      titleY - 35,
+                                                      titleY - 24,
                                                       self.loaderView.frame.size.width,
                                                       self.loaderView.frame.size.height)];
             } completion:NULL];
@@ -310,7 +310,9 @@ static char UIScrollViewPullToRefreshView;
 {
     if(!_loaderView)
     {
-        _loaderView = [[RTSpinKitView alloc] initWithStyle:RTSpinKitViewStyleWave color:textColor];
+        _loaderView = [[RTSpinKitView alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 17/2, 0, 17, 17)];
+        _loaderView.color = [UIColor whiteColor];
+        _loaderView.style = RTSpinKitViewStyleBounce;
         _loaderView.backgroundColor = [UIColor clearColor];
         [self addSubview:_loaderView];
     }
