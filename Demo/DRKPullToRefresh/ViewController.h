@@ -1,6 +1,6 @@
 //
 //  ViewController.h
-//  KoaPullToRefresh
+//  DRKPullToRefresh
 //
 //  Created by Sergi Gracia on 09/05/13.
 //  Copyright (c) 2013 Sergi Gracia. All rights reserved.

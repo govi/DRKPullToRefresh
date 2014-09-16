@@ -1,3 +1,2 @@
-platform :ios, '7.0'
-
-pod 'SpinKit', :git => 'https://github.com/govi/SpinKit-ObjC.git'
+platform :ios, '6.0'
+pod 'SpinKit'

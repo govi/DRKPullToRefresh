@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'KoaPullToRefresh' target in the 'KoaPullToRefresh' project
+// Prefix header for all source files of the 'DRKPullToRefresh' target in the 'DRKPullToRefresh' project
 //
 
 #import <Availability.h>

@@ -1,13 +1,13 @@
 //
 //  ViewController.m
-//  KoaPullToRefresh
+//  DRKPullToRefresh
 //
 //  Created by Sergi Gracia on 09/05/13.
 //  Copyright (c) 2013 Sergi Gracia. All rights reserved.
 //
 
 #import "ViewController.h"
-#import "KoaPullToRefresh.h"
+#import "DRKPullToRefresh.h"
 #import <QuartzCore/QuartzCore.h>
 #import "RTSpinKitView.h"
 
@@ -51,9 +51,9 @@
     [self.tableView.pullToRefreshView setTextFont:[UIFont fontWithName:@"OpenSans-Semibold" size:16]];
 
     //Set titles
-    [self.tableView.pullToRefreshView setTitle:@"Pull" forState:KoaPullToRefreshStateStopped];
-    [self.tableView.pullToRefreshView setTitle:@"Release" forState:KoaPullToRefreshStateTriggered];
-    [self.tableView.pullToRefreshView setTitle:@"Loading" forState:KoaPullToRefreshStateLoading];
+    [self.tableView.pullToRefreshView setTitle:@"Pull" forState:DRKPullToRefreshStateStopped];
+    [self.tableView.pullToRefreshView setTitle:@"Release" forState:DRKPullToRefreshStateTriggered];
+    [self.tableView.pullToRefreshView setTitle:@"Loading" forState:DRKPullToRefreshStateLoading];
     
     //Hide scroll indicator
     [self.tableView setShowsVerticalScrollIndicator:NO];

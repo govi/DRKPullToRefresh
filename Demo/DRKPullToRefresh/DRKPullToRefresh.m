@@ -1,27 +1,28 @@
 //
-//  KoaPullToRefresh.m
-//  KoaPullToRefresh
+//  DRKPullToRefresh.m
+//  DRKPullToRefresh
 //
 //  Created by Sergi Gracia on 09/05/13.
 //  Copyright (c) 2013 Sergi Gracia. All rights reserved.
 //
 
-#import "KoaPullToRefresh.h"
+#import "DRKPullToRefresh.h"
 #import <QuartzCore/QuartzCore.h>
+#import <RTSpinKitView.h>
 
 #define fequal(a,b) (fabs((a) - (b)) < FLT_EPSILON)
 #define fequalzero(a) (fabs(a) < FLT_EPSILON)
 
-static CGFloat KoaPullToRefreshViewHeight = 82;
-static CGFloat KoaPullToRefreshViewHeightShowed = 0;
-static CGFloat KoaPullToRefreshViewTitleBottomMargin = 12;
+static CGFloat DRKPullToRefreshViewHeight = 82;
+static CGFloat DRKPullToRefreshViewHeightShowed = 0;
+static CGFloat DRKPullToRefreshViewTitleBottomMargin = 12;
 
-@interface KoaPullToRefreshView ()
+@interface DRKPullToRefreshView ()
 
 @property (nonatomic, copy) void (^pullToRefreshActionHandler)(void);
 @property (nonatomic, strong, readwrite) UILabel *titleLabel;
-@property (nonatomic, strong, readwrite) UILabel *loaderLabel;
-@property (nonatomic, readwrite) KoaPullToRefreshState state;
+@property (nonatomic, strong, readwrite) RTSpinKitView *loaderView;
+@property (nonatomic, readwrite) DRKPullToRefreshState state;
 @property (nonatomic, strong) NSMutableArray *titles;
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, readwrite) CGFloat originalTopInset;
@@ -36,12 +37,12 @@ static CGFloat KoaPullToRefreshViewTitleBottomMargin = 12;
 
 @end
 
-#pragma mark - UIScrollView (KoaPullToRefresh)
+#pragma mark - UIScrollView (DRKPullToRefresh)
 #import <objc/runtime.h>
 
 static char UIScrollViewPullToRefreshView;
 
-@implementation UIScrollView (KoaPullToRefresh)
+@implementation UIScrollView (DRKPullToRefresh)
 @dynamic pullToRefreshView, showsPullToRefresh;
 
 - (void)addPullToRefreshWithActionHandler:(void (^)(void))actionHandler {
@@ -50,32 +51,32 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)addPullToRefreshWithActionHandler:(void (^)(void))actionHandler
                   withBackgroundColor:(UIColor *)customBackgroundColor {
-    [self addPullToRefreshWithActionHandler:actionHandler withBackgroundColor:customBackgroundColor withPullToRefreshHeightShowed:KoaPullToRefreshViewHeightShowed];
+    [self addPullToRefreshWithActionHandler:actionHandler withBackgroundColor:customBackgroundColor withPullToRefreshHeightShowed:DRKPullToRefreshViewHeightShowed];
 }
 
 - (void)addPullToRefreshWithActionHandler:(void (^)(void))actionHandler
                       withBackgroundColor:(UIColor *)customBackgroundColor
             withPullToRefreshHeightShowed:(CGFloat)pullToRefreshHeightShowed {
     
-    //KoaPullToRefreshViewHeight = pullToRefreshHeight;
-    KoaPullToRefreshViewHeightShowed = pullToRefreshHeightShowed;
-    KoaPullToRefreshViewTitleBottomMargin += pullToRefreshHeightShowed;
+    //DRKPullToRefreshViewHeight = pullToRefreshHeight;
+    DRKPullToRefreshViewHeightShowed = pullToRefreshHeightShowed;
+    DRKPullToRefreshViewTitleBottomMargin += pullToRefreshHeightShowed;
     
-    [self setContentInset:UIEdgeInsetsMake(KoaPullToRefreshViewHeightShowed, self.contentInset.left, self.contentInset.bottom, self.contentInset.right)];
+    [self setContentInset:UIEdgeInsetsMake(DRKPullToRefreshViewHeightShowed, self.contentInset.left, self.contentInset.bottom, self.contentInset.right)];
     
     if (!self.pullToRefreshView) {
         
         //Initial y position
-        CGFloat yOrigin = -KoaPullToRefreshViewHeight;
+        CGFloat yOrigin = -DRKPullToRefreshViewHeight;
         
         //Put background extra to fill top white space
-        UIView *backgroundExtra = [[UIView alloc] initWithFrame:CGRectMake(0, -KoaPullToRefreshViewHeight*8, self.bounds.size.width, KoaPullToRefreshViewHeight*8)];
+        UIView *backgroundExtra = [[UIView alloc] initWithFrame:CGRectMake(0, -DRKPullToRefreshViewHeight*8, self.bounds.size.width, DRKPullToRefreshViewHeight*8)];
         [backgroundExtra setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
         [backgroundExtra setBackgroundColor:customBackgroundColor];
         [self addSubview:backgroundExtra];
         
         //Init pull to refresh view
-        KoaPullToRefreshView *view = [[KoaPullToRefreshView alloc] initWithFrame:CGRectMake(0, yOrigin, self.bounds.size.width, KoaPullToRefreshViewHeight + KoaPullToRefreshViewHeightShowed)];
+        DRKPullToRefreshView *view = [[DRKPullToRefreshView alloc] initWithFrame:CGRectMake(0, yOrigin, self.bounds.size.width, DRKPullToRefreshViewHeight + DRKPullToRefreshViewHeightShowed)];
         view.pullToRefreshActionHandler = actionHandler;
         view.scrollView = self;
         view.backgroundColor = customBackgroundColor;
@@ -89,15 +90,15 @@ static char UIScrollViewPullToRefreshView;
     }
 }
 
-- (void)setPullToRefreshView:(KoaPullToRefreshView *)pullToRefreshView {
-    [self willChangeValueForKey:@"KoaPullToRefreshView"];
+- (void)setPullToRefreshView:(DRKPullToRefreshView *)pullToRefreshView {
+    [self willChangeValueForKey:@"DRKPullToRefreshView"];
     objc_setAssociatedObject(self, &UIScrollViewPullToRefreshView,
                              pullToRefreshView,
                              OBJC_ASSOCIATION_ASSIGN);
-    [self didChangeValueForKey:@"KoaPullToRefreshView"];
+    [self didChangeValueForKey:@"DRKPullToRefreshView"];
 }
 
-- (KoaPullToRefreshView *)pullToRefreshView {
+- (DRKPullToRefreshView *)pullToRefreshView {
     return objc_getAssociatedObject(self, &UIScrollViewPullToRefreshView);
 }
 
@@ -118,8 +119,8 @@ static char UIScrollViewPullToRefreshView;
             [self addObserver:self.pullToRefreshView forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
             self.pullToRefreshView.isObserving = YES;
             
-            CGFloat yOrigin = -KoaPullToRefreshViewHeight;
-            self.pullToRefreshView.frame = CGRectMake(0, yOrigin, self.bounds.size.width, KoaPullToRefreshViewHeight + KoaPullToRefreshViewHeightShowed);
+            CGFloat yOrigin = -DRKPullToRefreshViewHeight;
+            self.pullToRefreshView.frame = CGRectMake(0, yOrigin, self.bounds.size.width, DRKPullToRefreshViewHeight + DRKPullToRefreshViewHeightShowed);
         }
     }
 }
@@ -131,16 +132,15 @@ static char UIScrollViewPullToRefreshView;
 @end
 
 
-#pragma mark - KoaPullToRefresh
-@implementation KoaPullToRefreshView
+#pragma mark - DRKPullToRefresh
+@implementation DRKPullToRefreshView
 
 @synthesize pullToRefreshActionHandler, arrowColor, textColor, textFont;
 @synthesize state = _state;
 @synthesize scrollView = _scrollView;
 @synthesize showsPullToRefresh = _showsPullToRefresh;
 @synthesize titleLabel = _titleLabel;
-@synthesize loaderLabel = _loaderLabel;
-@synthesize fontAwesomeIcon = _fontAwesomeIcon;
+@synthesize loaderView = _loaderView;
 
 - (id)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
@@ -149,9 +149,8 @@ static char UIScrollViewPullToRefreshView;
         self.textColor = [UIColor darkGrayColor];
         self.backgroundColor = [UIColor whiteColor];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.state = KoaPullToRefreshStateStopped;
+        self.state = DRKPullToRefreshStateStopped;
         [self.titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [self.loaderLabel setTextAlignment:NSTextAlignmentLeft];
         
         self.titles = [NSMutableArray arrayWithObjects: NSLocalizedString(@"Pull",),
                                                         NSLocalizedString(@"Release",),
@@ -168,7 +167,7 @@ static char UIScrollViewPullToRefreshView;
         UIScrollView *scrollView = (UIScrollView *)self.superview;
         if (scrollView.showsPullToRefresh) {
             if (self.isObserving) {
-                //If enter this branch, it is the moment just before "KoaPullToRefreshView's dealloc", so remove observer here
+                //If enter this branch, it is the moment just before "DRKPullToRefreshView's dealloc", so remove observer here
                 [scrollView removeObserver:self forKeyPath:@"contentOffset"];
                 [scrollView removeObserver:self forKeyPath:@"contentSize"];
                 [scrollView removeObserver:self forKeyPath:@"frame"];
@@ -189,26 +188,26 @@ static char UIScrollViewPullToRefreshView;
     
     //Set title frame
     CGSize titleSize = [self.titleLabel.text sizeWithFont:self.titleLabel.font constrainedToSize:CGSizeMake(labelMaxWidth,self.titleLabel.font.lineHeight) lineBreakMode:self.titleLabel.lineBreakMode];
-    CGFloat titleY = KoaPullToRefreshViewHeight - KoaPullToRefreshViewHeightShowed - titleSize.height - KoaPullToRefreshViewTitleBottomMargin;
+    CGFloat titleY = DRKPullToRefreshViewHeight - DRKPullToRefreshViewHeightShowed - titleSize.height - DRKPullToRefreshViewTitleBottomMargin;
     
     [self.titleLabel setFrame:CGRectIntegral(CGRectMake(0, titleY, self.frame.size.width, titleSize.height))];
     
     //Set state of loader label
     switch (self.state) {
-        case KoaPullToRefreshStateStopped:
-            [self.loaderLabel setAlpha:0];
-            [self.loaderLabel setFrame:CGRectMake(self.frame.size.width/2 - self.loaderLabel.frame.size.width/2,
+        case DRKPullToRefreshStateStopped:
+            [self.loaderView setAlpha:0];
+            [self.loaderView setFrame:CGRectMake(self.frame.size.width/2 - self.loaderView.frame.size.width/2,
                                                   titleY - 100,
-                                                  self.loaderLabel.frame.size.width,
-                                                  self.loaderLabel.frame.size.height)];
+                                                  self.loaderView.frame.size.width,
+                                                  self.loaderView.frame.size.height)];
             break;
-        case KoaPullToRefreshStateTriggered:
+        case DRKPullToRefreshStateTriggered:
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut animations:^{
-                [self.loaderLabel setAlpha:1];
-                [self.loaderLabel setFrame:CGRectMake(self.frame.size.width/2 - self.loaderLabel.frame.size.width/2,
+                [self.loaderView setAlpha:1];
+                [self.loaderView setFrame:CGRectMake(self.frame.size.width/2 - self.loaderView.frame.size.width/2,
                                                       titleY - 24,
-                                                      self.loaderLabel.frame.size.width,
-                                                      self.loaderLabel.frame.size.height)];
+                                                      self.loaderView.frame.size.width,
+                                                      self.loaderView.frame.size.height)];
             } completion:NULL];
             break;
     }
@@ -249,8 +248,8 @@ static char UIScrollViewPullToRefreshView;
         [self layoutSubviews];
         
         CGFloat yOrigin;
-        yOrigin = -KoaPullToRefreshViewHeight;
-        self.frame = CGRectMake(0, yOrigin, self.bounds.size.width, KoaPullToRefreshViewHeight);
+        yOrigin = -DRKPullToRefreshViewHeight;
+        self.frame = CGRectMake(0, yOrigin, self.bounds.size.width, DRKPullToRefreshViewHeight);
     }
     else if([keyPath isEqualToString:@"frame"])
         [self layoutSubviews];
@@ -259,18 +258,18 @@ static char UIScrollViewPullToRefreshView;
 - (void)scrollViewDidScroll:(CGPoint)contentOffset {
     
     //Change title label alpha
-    [self.titleLabel setAlpha: ((contentOffset.y * -1) / KoaPullToRefreshViewHeight) - 0.1];
+    [self.titleLabel setAlpha: ((contentOffset.y * -1) / DRKPullToRefreshViewHeight) - 0.1];
     
-    if(self.state != KoaPullToRefreshStateLoading) {
+    if(self.state != DRKPullToRefreshStateLoading) {
         CGFloat scrollOffsetThreshold;
         scrollOffsetThreshold = self.frame.origin.y-self.originalTopInset;
         
-        if(!self.scrollView.isDragging && self.state == KoaPullToRefreshStateTriggered)
-            self.state = KoaPullToRefreshStateLoading;
-        else if(contentOffset.y < scrollOffsetThreshold && self.scrollView.isDragging && self.state == KoaPullToRefreshStateStopped)
-            self.state = KoaPullToRefreshStateTriggered;
-        else if(contentOffset.y >= scrollOffsetThreshold && self.state != KoaPullToRefreshStateStopped)
-            self.state = KoaPullToRefreshStateStopped;
+        if(!self.scrollView.isDragging && self.state == DRKPullToRefreshStateTriggered)
+            self.state = DRKPullToRefreshStateLoading;
+        else if(contentOffset.y < scrollOffsetThreshold && self.scrollView.isDragging && self.state == DRKPullToRefreshStateStopped)
+            self.state = DRKPullToRefreshStateTriggered;
+        else if(contentOffset.y >= scrollOffsetThreshold && self.state != DRKPullToRefreshStateStopped)
+            self.state = DRKPullToRefreshStateStopped;
     } else {
         CGFloat offset;
         UIEdgeInsets contentInset;
@@ -281,13 +280,13 @@ static char UIScrollViewPullToRefreshView;
     }
     
     //Set content offset for special cases
-    if(self.state != KoaPullToRefreshStateLoading) {
-        if (self.scrollView.contentOffset.y > -KoaPullToRefreshViewHeightShowed && self.scrollView.contentOffset.y < 0) {
+    if(self.state != DRKPullToRefreshStateLoading) {
+        if (self.scrollView.contentOffset.y > -DRKPullToRefreshViewHeightShowed && self.scrollView.contentOffset.y < 0) {
             [self.scrollView setContentInset:UIEdgeInsetsMake(abs(self.scrollView.contentOffset.y), self.scrollView.contentInset.left, self.scrollView.contentInset.bottom, self.scrollView.contentInset.right)];
-        }else if(self.scrollView.contentOffset.y > -KoaPullToRefreshViewHeightShowed) {
+        }else if(self.scrollView.contentOffset.y > -DRKPullToRefreshViewHeightShowed) {
             [self.scrollView setContentInset:UIEdgeInsetsZero];
         }else{
-            [self.scrollView setContentInset:UIEdgeInsetsMake(KoaPullToRefreshViewHeightShowed, self.scrollView.contentInset.left, self.scrollView.contentInset.bottom, self.scrollView.contentInset.right)];
+            [self.scrollView setContentInset:UIEdgeInsetsMake(DRKPullToRefreshViewHeightShowed, self.scrollView.contentInset.left, self.scrollView.contentInset.bottom, self.scrollView.contentInset.right)];
         }
     }
 }
@@ -307,24 +306,17 @@ static char UIScrollViewPullToRefreshView;
     return _titleLabel;
 }
 
-- (UILabel *)loaderLabel {
-    if(!_loaderLabel) {
-        _loaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 17/2, 0, 17, 17)];
-        _loaderLabel.text = [NSString fontAwesomeIconStringForIconIdentifier:self.fontAwesomeIcon];
-        _loaderLabel.font = [UIFont fontWithName:kFontAwesomeFamilyName size:20];
-        _loaderLabel.backgroundColor = [UIColor clearColor];
-        _loaderLabel.textColor = textColor;
-        [_loaderLabel sizeToFit];
-        [self addSubview:_loaderLabel];
+-(RTSpinKitView *)loaderView
+{
+    if(!_loaderView)
+    {
+        _loaderView = [[RTSpinKitView alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 17/2, 0, 17, 17)];
+        _loaderView.color = [UIColor whiteColor];
+        _loaderView.style = RTSpinKitViewStyleBounce;
+        _loaderView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_loaderView];
     }
-    return _loaderLabel;
-}
-
-- (NSString *)fontAwesomeIcon {
-    if (!_fontAwesomeIcon) {
-        _fontAwesomeIcon = @"icon-refresh";
-    }
-    return _fontAwesomeIcon;
+    return _loaderView;
 }
 
 - (UIColor *)textColor {
@@ -337,11 +329,11 @@ static char UIScrollViewPullToRefreshView;
 
 #pragma mark - Setters
 
-- (void)setTitle:(NSString *)title forState:(KoaPullToRefreshState)state {
+- (void)setTitle:(NSString *)title forState:(DRKPullToRefreshState)state {
     if(!title)
         title = @"";
     
-    if(state == KoaPullToRefreshStateAll)
+    if(state == DRKPullToRefreshStateAll)
         [self.titles replaceObjectsInRange:NSMakeRange(0, 3) withObjectsFromArray:@[title, title, title]];
     else
         [self.titles replaceObjectAtIndex:state withObject:title];
@@ -352,7 +344,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)setTextColor:(UIColor *)newTextColor {
     textColor = newTextColor;
     self.titleLabel.textColor = newTextColor;
-    self.loaderLabel.textColor = newTextColor;
+    self.loaderView.color = newTextColor;
 }
 
 - (void)setTextFont:(UIFont *)font
@@ -360,18 +352,12 @@ static char UIScrollViewPullToRefreshView;
     [self.titleLabel setFont:font];
 }
 
-- (void)setFontAwesomeIcon:(NSString *)fontAwesomeIcon
-{
-    _fontAwesomeIcon = fontAwesomeIcon;
-    _loaderLabel.text = [NSString fontAwesomeIconStringForIconIdentifier:self.fontAwesomeIcon];
-}
-
 #pragma mark -
 
 - (void)startAnimating{
     
     //Show loader
-    self.state = KoaPullToRefreshStateTriggered;
+    self.state = DRKPullToRefreshStateTriggered;
     [self layoutSubviews];
     
     if(fequalzero(self.scrollView.contentOffset.y)) {
@@ -381,41 +367,41 @@ static char UIScrollViewPullToRefreshView;
     else
         self.wasTriggeredByUser = YES;
 
-    self.state = KoaPullToRefreshStateLoading;
+    self.state = DRKPullToRefreshStateLoading;
 }
 
 - (void)stopAnimating {
-    self.state = KoaPullToRefreshStateStopped;
+    self.state = DRKPullToRefreshStateStopped;
 
     if(!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset)
         [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.originalTopInset) animated:YES];
 }
 
-- (void)setState:(KoaPullToRefreshState)newState {
+- (void)setState:(DRKPullToRefreshState)newState {
     
     if(_state == newState)
         return;
     
-    KoaPullToRefreshState previousState = _state;
+    DRKPullToRefreshState previousState = _state;
     _state = newState;
     
     [self setNeedsLayout];
     
     switch (newState) {
-        case KoaPullToRefreshStateStopped:
+        case DRKPullToRefreshStateStopped:
             [self stopRotatingIcon];
             [self resetScrollViewContentInset];
             self.wasTriggeredByUser = YES;
             break;
             
-        case KoaPullToRefreshStateTriggered:
+        case DRKPullToRefreshStateTriggered:
             break;
             
-        case KoaPullToRefreshStateLoading:
+        case DRKPullToRefreshStateLoading:
             [self startRotatingIcon];
             [self setScrollViewContentInsetForLoading];
             
-            if(previousState == KoaPullToRefreshStateTriggered && pullToRefreshActionHandler)
+            if(previousState == DRKPullToRefreshStateTriggered && pullToRefreshActionHandler)
                 pullToRefreshActionHandler();
             
             break;
@@ -423,17 +409,11 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)startRotatingIcon {
-    CABasicAnimation *rotation;
-    rotation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    rotation.fromValue = [NSNumber numberWithFloat:0];
-    rotation.toValue = [NSNumber numberWithFloat:(2*M_PI)];
-    rotation.duration = 1.2;
-    rotation.repeatCount = HUGE_VALF;
-    [self.loaderLabel.layer addAnimation:rotation forKey:@"Spin"];
+    [self.loaderView startAnimating];
 }
 
 - (void)stopRotatingIcon {
-    [self.loaderLabel.layer removeAnimationForKey:@"Spin"];
+    [self.loaderView stopAnimating];
 }
 
 @end
